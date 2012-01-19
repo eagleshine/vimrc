@@ -12,15 +12,39 @@ Bundle 'gmarik/vundle'
 Bundle 'gmarik/ingretu'
 
 " original repos on github
+"
 Bundle 'tpope/vim-fugitive'
+set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
+" Bundle 'vim-latex/vim-latex.github.com'
+Bundle 'gerw/vim-latex-suite'
+Bundle 'fs111/pydoc.vim.git'
+
+Bundle 'mitechie/pyflakes-pathogen.git'
+let g:pyflakes_use_quickfix=1
+
+" syntacs checker
+Bundle 'scrooloose/syntastic'
+let g:syntastic_enable_signs=1
+let g:syntastic_quiet_warnings=1
+
+" tags
+Bundle 'majutsushi/tagbar'
+
+" like grep, binding for perl module App:Ack
+Bundle 'mileszs/ack.vim.git'
+nmap <leader>a <Esc>:Ack!
 
 " vim-scripts repos
 Bundle 'L9'
 Bundle 'FuzzyFinder'
 Bundle 'The-NERD-tree'
 
+" Revision History
+Bundle 'Gundo'
+map <leader>g :GundoToggle<CR>
+
 " non github repos
-" Bundle 'git://git.wincent.com/command-t.git'
+Bundle 'git://git.wincent.com/command-t.git'
 
 "  "}}}
 
@@ -39,6 +63,8 @@ set autoindent
 set noexpandtab
 " set expandtab
 set nospell
+set nobackup
+set noswapfile
 
 set modeline
 "set spell
