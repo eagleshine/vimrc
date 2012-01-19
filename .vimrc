@@ -1,20 +1,232 @@
-set nocompatible
-filetype off
 
+"===================================================================
+" General "{{{
+set nocompatible	" be iMproved
+
+set history=256		" number of thins to remember in history
+set timeoutlen=260	" Time to wait after ESC (default causes an annoying delay)
+set clipboard+=unnamed	" Yanks go on clipboard instead.
+set modeline
+set modelines=5		" default numbers of lines to read for modeline instructions
+set nobackup
+set nowritebackup
+" set directory=/tmp//	" prepend(^=) $HOME/.tmp/ to default path; use full path as backup filename(//)
+set noswapfile
+
+"set autowrite		" Automatically save before commands like :next and :make
+
+"set hidden		" The current buffer can be put to the background without writing to disk
+"set hidden             " Hide buffers when they are abandoned
+"set smartcase		" Do smart case matching
+set incsearch		" Incremental search
+set hlsearch		" highlight search
+
+let g:is_posix = 1	" vim's default is archaic bourne shell, bring it up to the 90s
+let mapleader = ","	" set mapleader
+
+" "}}}
+
+" Formatting "{{{
+set fo+=o		" Automatically insert the current comment leader after hitting 'o' or 'O' in Normal mode.
+set fo-=r		" Do not automatically insert a comment leader after an enter
+set fo-=t		" Do no auto-wrap text using textwidth (does not apply to comments)
+
+set nowrap		" don't wrap the line longer than the screen
+set textwidth=0		" Don't wrap lines by default
+
+set tabstop=8
+set softtabstop=4
+set shiftwidth=4
+set noexpandtab
+set smarttab
+
+set backspace=indent
+set backspace+=eol
+set backspace+=start
+
+set autoindent 
+set cindent
+set indentkeys-=0#	" do not break indent on #
+set cinkeys-=0#
+set cinoptions=:s,ps,ts,cs
+set cinwords=if,else,while,do
+set cinwords+=for,switch,case
+
+" "}}}
+
+" Visual "{{{
+syntax on		" enable syntax
+
+set mouse=a		" Enable mouse usage (all modes) in terminals
+set mousehide		" Hide mouse after chars typed
+
+set number		" set line numbers
+set showmatch		" Show matching brackets.
+"set ignorecase		" Do case insensitive matching
+set matchtime=2		" Bracket blinking
+
+set nospell
+
+set wildmode=longest,list   " At command line, complete longest common string, then list alternatives.
+
+set novisualbell	" No blinking
+set noerrorbells	" No noise.
+set vb t_vb=		" disable any beeps or flashes on error
+
+set laststatus=2	" always show status line.
+set shortmess=atI	" shortens messages
+set showcmd		" Show (partial) command in status line.
+
+set statusline=%<%f\	" custom statusline
+set stl+=[%{&ff}]	" show fileformat
+set stl+=%y%m%r
+set stl+=%{fugitive#statusline()}   " for tpope/vim-fugitive
+set stl+=%=
+set stl+=%-14.(%l,%c%V%)\ %P
+
+set foldenable		" Turn on folding
+set foldmethod=marker	" Fold on the marker
+set foldlevel=100	" Don't autofold anything (but I can still fold manually)
+
+set foldopen=block,hor,tag  " what movements open folds
+set foldopen+=percent,mark
+set foldopen+=quickfix
+
+set splitbelow
+set splitright
+
+set nolist	" display unprintable characters f12 - switches
+set listchars=tab:\ ·,eol:¬
+set listchars+=extends:»,precedes:«
+nmap <silent> <leader>lc <ESC><ESC>:set invlist<CR>
+
+if has('gui_running')
+    set guioptions=cMg	" console dialogs, do not show menu and toolbar
+
+    " Fonts
+    if has('mac')
+	set guifont=Andale\ Mono:h13
+    else
+	set guifont=Terminus:h16
+    end
+
+    if has('mac')
+	set noantialias
+	" set fullscreen
+	set fuoptions=maxvert,maxhorz ", background:#00AAaaaa
+    endif
+endif
+
+" If using a dark background within the editing area and syntax highlighting
+" turn on this option as well
+set background=dark
+" "}}}
+
+
+" Key mappings "{{{
+" Duplication
+nnoremap <leader>c mz"dyy"dp`z
+vnoremap <leader>c "dymz"dP`z
+
+" Tabs
+nnoremap <M-h> :tabprev<CR>
+nnoremap <M-l> :tabnext<CR>
+" Esc
+inoremap <leader>, <Esc>
+inoremap ;; <Esc>
+inoremap <C-return> <Esc>
+inoremap <C-space> <Esc>
+
+" Buffers operate
+" edit next buffer
+map <silent> <leader>bn <ESC><ESC>:bn<CR>
+map <F12> <ESC><ESC>:bn<CR>
+" Delete a buffer but keep layout
+if has("eval")
+    command! Kwbd enew|bw #
+    nmap     <C-w>!   :Kwbd<CR>
+endif
+
+" Split line(opposite to S-J joining line)
+nnoremap <C-J> gEa<CR><ESC>ew 
+
+" copy filename
+map <silent> <leader>. :let @+=expand('%').':'.line('.')<CR>
+" copy path
+map <silent> <leader>/ :let @+=expand('%:p:h')<CR>
+
+map <S-CR> A<CR><ESC>
+
+map <leader>E :Explore<CR>
+map <leader>EE :Vexplore!<CR><C-W>=
+
+" Make control-direction switch between windows (like C-W h, etc)
+nmap <C-k> <c-W>k
+nmap <C-j> <C-W>j
+nmap <C-h> <C-W>h
+nmap <C-l> <C-W>l
+
+" vertical split with CommandT
+nnoremap <leader>v :exec ':vnew \| CommandT'<CR>
+" and without
+nnoremap <leader>V :vnew<CR>
+
+" Control+S and Control+Q are flow-control characters: disable them in your terminal settings.
+" $ stty -ixon -ixoff
+" noremap <C-S> :update<CR>
+" vnoremap <C-S> <C-C>:update<CR>
+" inoremap <C-S> <C-O>:update<CR>
+
+" generate HTML version current buffer using current color scheme
+map <leader>2h :runtime! syntax/2html.vim<CR>
+
+ab #e # encoding: UTF-8
+" "}}}
+
+
+" AutoCommands "{{{
+" "}}}
+
+" Scripts and Bundles "{{{
+filetype off
+"runtime macros/matchit.vim
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
 
-" bundles "{{{
 Bundle 'gmarik/vundle'
 
 "Colorscheme
+Bundle 'molokai'
+Bundle 'nelstrom/vim-mac-classic-theme'
+Bundle 'altercation/vim-colors-solarized'
 Bundle 'gmarik/ingretu'
 
-" original repos on github
-"
+" Switch syntax highlighting on, when the terminal has colors
+" Also switch on highlighting the last used search pattern.
+if &t_Co > 2 || has("gui_running")
+"  colorscheme evening
+   colorscheme ingretu
+"  colorscheme molokai
+"  colorscheme vim-mac-classic-theme
+"  colorscheme solarized
+endif
+
+
+" =========   original repos on github
+" Git integration
+Bundle 'tpope/vim-git'
 Bundle 'tpope/vim-fugitive'
-set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
+" set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
+" Gblame, Gread
+nnoremap <leader>W :Gwrite<CR>
+nnoremap <leader>C :Gcommit -v<CR>
+nnoremap <silent> <leader>S :Gstatus \| 7<CR>
+inoremap <leader>W <Esc><leader>W
+inoremap <leader>C <Esc><leader>C
+inoremap <leader>S <Esc><leader>S  
+
+
 " Bundle 'vim-latex/vim-latex.github.com'
 Bundle 'gerw/vim-latex-suite'
 Bundle 'fs111/pydoc.vim.git'
@@ -30,58 +242,110 @@ let g:syntastic_quiet_warnings=1
 " tags
 Bundle 'majutsushi/tagbar'
 
+Bundle 'mkitt/browser-refresh.vim'
+com! ONRRB :au! BufWritePost <buffer> :RRB
+com! NORRB :au! BufWritePost <buffer>
+
 " like grep, binding for perl module App:Ack
 Bundle 'mileszs/ack.vim.git'
 nmap <leader>a <Esc>:Ack!
 
-" vim-scripts repos
+"Bundle 'tpope/unimpaired.vim'
+Bundle 'unimpaired.vim'
+" bubble current line
+nmap <M-j> ]e
+nmap <M-k> [e
+" bubble visual selection lines
+vmap <M-j> ]egv
+vmap <M-k> [egv
+
+"Bundle 'Lokaltog/vim-easymotion'
+"let g:EasyMotion_leader_key='<LocalLeader>'
+
+"Bundle 'gmarik/hlmatch.vim'
+" nnoremap # :<C-u>HlmCword<CR>
+" nnoremap <leader># :<C-u>HlmGrepCword<CR>
+" vnoremap # :<C-u>HlmVSel<CR>
+" vnoremap <leader># :<C-u>HlmGrepVSel<CR>
+" 
+" nnoremap ## :<C-u>HlmPartCword<CR>
+" nnoremap <leader>## :<C-u>HlmPartGrepCword<CR>
+" vnoremap ## :<C-u>HlmPartVSel<CR>
+" vnoremap <leader>## :<C-u>HlmPartGrepVSel<CR>
+
+" ============    vim-scripts repos
 Bundle 'L9'
 Bundle 'FuzzyFinder'
+" FuF customisations "{{{
+let g:fuf_modesDisable = []
+nnoremap <leader>h :FufHelp<CR>
+nnoremap <leader>2 :FufFileWithCurrentBufferDir<CR>
+nnoremap <leader>@ :FufFile<CR>
+nnoremap <leader>3 :FufBuffer<CR>
+nnoremap <leader>4 :FufDirWithCurrentBufferDir<CR>
+nnoremap <leader>$ :FufDir<CR>
+nnoremap <leader>5 :FufChangeList<CR>
+nnoremap <leader>6 :FufMruFile<CR>
+nnoremap <leader>7 :FufLine<CR>
+nnoremap <leader>9 :FufTaggedFile<CR>
+
+nnoremap <leader>p :FufDir ~/src/<CR>
+nnoremap <leader>gg :FufDir ~/.rvm/gems/<CR>
+
+nnoremap <leader>gn :vnew \| :FufFile ~/src/notes/<CR>
+
+" " }}}
+
+" to do list
+Bundle 'TaskList.vim'
+
 Bundle 'The-NERD-tree'
+" programming
+Bundle 'jQuery'
+
+" (HT|X)ml tool
+Bundle 'ragtag.vim'
 
 " Revision History
 Bundle 'Gundo'
-map <leader>g :GundoToggle<CR>
+nnoremap <leader>g :GundoToggle<CR>
 
-" non github repos
+Bundle 'Indent-Guides'
+let g:indent_guides_guide_size = 1
+
+Bundle 'ZoomWin'
+noremap <leader>o :ZoomWin<CR>
+vnoremap <leader>o <C-C>:ZoomWin<CR>
+inoremap <leader>o <C-O>:ZoomWin<CR>
+
+Bundle 'tlib'
+Bundle 'tComment'
+nnoremap // :TComment<CR>
+vnoremap // :TComment<CR>
+
+" ============    non github repos
 Bundle 'git://git.wincent.com/command-t.git'
+let g:CommandTMatchWindowAtTop=0 " show window at top
+"burke's
+nnoremap <leader>gv :CommandTFlush<cr>\|:CommandT app/views<cr>
+nnoremap <leader>gc :CommandTFlush<cr>\|:CommandT app/controllers<cr>
+nnoremap <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
+nnoremap <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
+nnoremap <leader>ga :CommandTFlush<cr>\|:CommandT app/assets<cr>
+nnoremap <leader>gp :CommandTFlush<cr>\|:CommandT public<cr>
+"nnoremap <leader>gr :topleft :vsplit config/routes.rb<cr>
+"nnoremap <leader>gg :topleft :vsplit Gemfile<cr>
+
 
 "  "}}}
 
 filetype plugin indent on
-syntax on
 
-" If using a dark background within the editing area and syntax highlighting
-" turn on this option as well
-set background=dark
 
-"===================================================================
-set tabstop=8
-set softtabstop=4
-set shiftwidth=4
-set autoindent
-set noexpandtab
-" set expandtab
-set nospell
-set nobackup
-set noswapfile
 
-set modeline
-"set spell
-
-" set mapleader
-let mapleader = ","
 
 " The following are commented out as they cause vim to behave a lot
 " differently from regular Vi. They are highly recommended though.
-set showcmd		" Show (partial) command in status line.
-set showmatch		" Show matching brackets.
-"set ignorecase		" Do case insensitive matching
-"set smartcase		" Do smart case matching
-set incsearch		" Incremental search
-"set autowrite		" Automatically save before commands like :next and :make
-"set hidden             " Hide buffers when they are abandoned
-"set mouse=a		" Enable mouse usage (all modes) in terminals
 
 "===================================================================
 
@@ -135,13 +399,7 @@ if has("autocmd")
 endif
 
 "==================================================================
-" Switch syntax highlighting on, when the terminal has colors
-" Also switch on highlighting the last used search pattern.
-if &t_Co > 2 || has("gui_running")
-"  syntax on
-  set hlsearch
-  colorscheme evening
-endif
+"
 set ruler               " show the cursor position all the time
 "===================================================================
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -266,22 +524,5 @@ map <silent> <leader>le <ESC><ESC><C-W>l2<C-E><C-W>h
 map <F8> <ESC><ESC><C-W>l2<C-E><C-W>h
 
 
-"---------------------------------------------------
-"       buffer operate
-"---------------------------------------------------
-" edit next buffer
-map <silent> <leader>bn <ESC><ESC>:bn<CR>
-map <F12> <ESC><ESC>:bn<CR>
 
-" Delete a buffer but keep layout
-if has("eval")
-    command! Kwbd enew|bw #
-    nmap     <C-w>!   :Kwbd<CR>
-endif
-
-
-" normal map
-nmap <C-J> <C-W>j
-nmap <C-k> <c-W>k
-
-
+" vim: textwidth=120:
