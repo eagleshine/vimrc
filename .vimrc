@@ -259,6 +259,19 @@ nmap <M-k> [e
 vmap <M-j> ]egv
 vmap <M-k> [egv
 
+Bundle 'wincent/Command-T.git'
+let g:CommandTMatchWindowAtTop=0 " show window at top
+"burke's
+nnoremap <leader>gv :CommandTFlush<cr>\|:CommandT app/views<cr>
+nnoremap <leader>gc :CommandTFlush<cr>\|:CommandT app/controllers<cr>
+nnoremap <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
+nnoremap <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
+nnoremap <leader>ga :CommandTFlush<cr>\|:CommandT app/assets<cr>
+nnoremap <leader>gp :CommandTFlush<cr>\|:CommandT public<cr>
+"nnoremap <leader>gr :topleft :vsplit config/routes.rb<cr>
+"nnoremap <leader>gg :topleft :vsplit Gemfile<cr>
+
+
 "Bundle 'Lokaltog/vim-easymotion'
 "let g:EasyMotion_leader_key='<LocalLeader>'
 
@@ -324,18 +337,6 @@ nnoremap // :TComment<CR>
 vnoremap // :TComment<CR>
 
 " ============    non github repos
-Bundle 'git://git.wincent.com/command-t.git'
-let g:CommandTMatchWindowAtTop=0 " show window at top
-"burke's
-nnoremap <leader>gv :CommandTFlush<cr>\|:CommandT app/views<cr>
-nnoremap <leader>gc :CommandTFlush<cr>\|:CommandT app/controllers<cr>
-nnoremap <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
-nnoremap <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
-nnoremap <leader>ga :CommandTFlush<cr>\|:CommandT app/assets<cr>
-nnoremap <leader>gp :CommandTFlush<cr>\|:CommandT public<cr>
-"nnoremap <leader>gr :topleft :vsplit config/routes.rb<cr>
-"nnoremap <leader>gg :topleft :vsplit Gemfile<cr>
-
 
 "  "}}}
 
