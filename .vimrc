@@ -21,6 +21,8 @@ set noswapfile
 set incsearch		" Incremental search
 set hlsearch		" highlight search
 
+set grepprg=grep\ -nri
+
 let g:is_posix = 1	" vim's default is archaic bourne shell, bring it up to the 90s
 let mapleader = ","	" set mapleader
 
@@ -44,7 +46,7 @@ set backspace=indent
 set backspace+=eol
 set backspace+=start
 
-set autoindent 
+set autoindent
 set cindent
 set indentkeys-=0#	" do not break indent on #
 set cinkeys-=0#
@@ -259,8 +261,20 @@ nmap <M-k> [e
 vmap <M-j> ]egv
 vmap <M-k> [egv
 
-"Bundle 'Lokaltog/vim-easymotion'
-"let g:EasyMotion_leader_key='<LocalLeader>'
+Bundle 'wincent/Command-T.git'
+let g:CommandTMatchWindowAtTop=0 " show window at top
+"burke's
+nnoremap <leader>gv :CommandTFlush<cr>\|:CommandT app/views<cr>
+nnoremap <leader>gc :CommandTFlush<cr>\|:CommandT app/controllers<cr>
+nnoremap <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
+nnoremap <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
+nnoremap <leader>ga :CommandTFlush<cr>\|:CommandT app/assets<cr>
+nnoremap <leader>gp :CommandTFlush<cr>\|:CommandT public<cr>
+"nnoremap <leader>gr :topleft :vsplit config/routes.rb<cr>
+"nnoremap <leader>gg :topleft :vsplit Gemfile<cr>
+
+Bundle 'Lokaltog/vim-easymotion'
+let g:EasyMotion_leader_key='<LocalLeader>'
 
 "Bundle 'gmarik/hlmatch.vim'
 " nnoremap # :<C-u>HlmCword<CR>
@@ -324,18 +338,6 @@ nnoremap // :TComment<CR>
 vnoremap // :TComment<CR>
 
 " ============    non github repos
-Bundle 'git://git.wincent.com/command-t.git'
-let g:CommandTMatchWindowAtTop=0 " show window at top
-"burke's
-nnoremap <leader>gv :CommandTFlush<cr>\|:CommandT app/views<cr>
-nnoremap <leader>gc :CommandTFlush<cr>\|:CommandT app/controllers<cr>
-nnoremap <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
-nnoremap <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
-nnoremap <leader>ga :CommandTFlush<cr>\|:CommandT app/assets<cr>
-nnoremap <leader>gp :CommandTFlush<cr>\|:CommandT public<cr>
-"nnoremap <leader>gr :topleft :vsplit config/routes.rb<cr>
-"nnoremap <leader>gg :topleft :vsplit Gemfile<cr>
-
 
 "  "}}}
 
