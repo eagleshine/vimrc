@@ -274,8 +274,8 @@ nnoremap <leader>gp :CommandTFlush<cr>\|:CommandT public<cr>
 "nnoremap <leader>gr :topleft :vsplit config/routes.rb<cr>
 "nnoremap <leader>gg :topleft :vsplit Gemfile<cr>
 
-Bundle 'Lokaltog/vim-easymotion'
-let g:EasyMotion_leader_key='<LocalLeader>'
+" Bundle 'Lokaltog/vim-easymotion'
+" let g:EasyMotion_leader_key='<LocalLeader>'
 
 "Bundle 'gmarik/hlmatch.vim'
 " nnoremap # :<C-u>HlmCword<CR>
