@@ -21,6 +21,8 @@ set noswapfile
 set incsearch		" Incremental search
 set hlsearch		" highlight search
 
+set grepprg=grep\ -nri
+
 let g:is_posix = 1	" vim's default is archaic bourne shell, bring it up to the 90s
 let mapleader = ","	" set mapleader
 
@@ -44,7 +46,7 @@ set backspace=indent
 set backspace+=eol
 set backspace+=start
 
-set autoindent 
+set autoindent
 set cindent
 set indentkeys-=0#	" do not break indent on #
 set cinkeys-=0#
@@ -271,7 +273,6 @@ nnoremap <leader>ga :CommandTFlush<cr>\|:CommandT app/assets<cr>
 nnoremap <leader>gp :CommandTFlush<cr>\|:CommandT public<cr>
 "nnoremap <leader>gr :topleft :vsplit config/routes.rb<cr>
 "nnoremap <leader>gg :topleft :vsplit Gemfile<cr>
-
 
 Bundle 'Lokaltog/vim-easymotion'
 let g:EasyMotion_leader_key='<LocalLeader>'
