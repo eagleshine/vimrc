@@ -262,6 +262,7 @@ vmap <M-k> [egv
 Bundle 'wincent/Command-T.git'
 let g:CommandTMatchWindowAtTop=0 " show window at top
 "burke's
+nnoremap <silent> <leader>ct :CommandT<CR>
 nnoremap <leader>gv :CommandTFlush<cr>\|:CommandT app/views<cr>
 nnoremap <leader>gc :CommandTFlush<cr>\|:CommandT app/controllers<cr>
 nnoremap <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
@@ -272,8 +273,8 @@ nnoremap <leader>gp :CommandTFlush<cr>\|:CommandT public<cr>
 "nnoremap <leader>gg :topleft :vsplit Gemfile<cr>
 
 
-"Bundle 'Lokaltog/vim-easymotion'
-"let g:EasyMotion_leader_key='<LocalLeader>'
+Bundle 'Lokaltog/vim-easymotion'
+let g:EasyMotion_leader_key='<LocalLeader>'
 
 "Bundle 'gmarik/hlmatch.vim'
 " nnoremap # :<C-u>HlmCword<CR>
