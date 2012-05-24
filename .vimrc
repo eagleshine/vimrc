@@ -1,4 +1,3 @@
-
 "===================================================================
 " General "{{{
 set nocompatible	" be iMproved
@@ -197,6 +196,7 @@ call vundle#rc()
 
 
 Bundle 'gmarik/vundle'
+let g:vundle_default_git_proto='git'
 
 "Colorscheme
 Bundle 'molokai'
