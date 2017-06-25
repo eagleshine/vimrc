@@ -1,5 +1,10 @@
+
 "===================================================================
 " General "{{{
+set enc=utf-8
+set fenc=utf-8
+set fileencodings=utf-8
+set termencoding=utf-8
 set nocompatible	" be iMproved
 
 set history=256		" number of thins to remember in history
@@ -35,10 +40,10 @@ set fo-=t		" Do no auto-wrap text using textwidth (does not apply to comments)
 set nowrap		" don't wrap the line longer than the screen
 set textwidth=0		" Don't wrap lines by default
 
-set tabstop=8
+set tabstop=4
 set softtabstop=4
 set shiftwidth=4
-set noexpandtab
+set expandtab
 set smarttab
 
 set backspace=indent
@@ -78,12 +83,12 @@ set laststatus=2	" always show status line.
 set shortmess=atI	" shortens messages
 set showcmd		" Show (partial) command in status line.
 
-set statusline=%<%f\	" custom statusline
-set stl+=[%{&ff}]	" show fileformat
-set stl+=%y%m%r
-set stl+=%{fugitive#statusline()}   " for tpope/vim-fugitive
-set stl+=%=
-set stl+=%-14.(%l,%c%V%)\ %P
+" set statusline=%<%f\	" custom statusline
+" set stl+=[%{&ff}]	" show fileformat
+" set stl+=%y%m%r
+" set stl+=%{fugitive#statusline()}   " for tpope/vim-fugitive
+" set stl+=%=
+" set stl+=%-14.(%l,%c%V%)\ %P
 
 set foldenable		" Turn on folding
 set foldmethod=marker	" Fold on the marker
@@ -97,8 +102,11 @@ set splitbelow
 set splitright
 
 set nolist	" display unprintable characters f12 - switches
-set listchars=tab:\ ·,eol:¬
+"set listchars=tab:\ ·,eol:¬
+set listchars=tab:▸\ ,eol:¬
 set listchars+=extends:»,precedes:«
+"highlight NonText ctermfg=8 guifg=gray
+"highlight SpecialKey ctermfg=8 guifg=gray
 nmap <silent> <leader>lc <ESC><ESC>:set invlist<CR>
 
 if has('gui_running')
@@ -149,7 +157,7 @@ if has("eval")
 endif
 
 " Split line(opposite to S-J joining line)
-nnoremap <C-J> gEa<CR><ESC>ew 
+nnoremap <C-J> gEa<CR><ESC>ew
 
 " copy filename
 map <silent> <leader>. :let @+=expand('%').':'.line('.')<CR>
@@ -182,6 +190,29 @@ nnoremap <leader>V :vnew<CR>
 map <leader>2h :runtime! syntax/2html.vim<CR>
 
 ab #e # encoding: UTF-8
+
+" Paste toggle (,p)
+set pastetoggle=<leader>p
+map <leader>p :set invpaste paste?<CR>
+
+" Number toggle (,n)
+nmap <leader>n :set invnumber<CR>
+
+" Strip trailing whitespace (,sw)
+function! StripWhitespace ()
+  let save_cursor = getpos(".")
+  let old_query = getreg('/')
+  :%s/\s\+$//e
+  call setpos('.', save_cursor)
+  call setreg('/', old_query)
+endfunction
+noremap <leader>sw :call StripWhitespace ()<CR>
+
+" Indent/unident block (,]) (,[)
+nnoremap <leader>] >i{<CR>
+nnoremap <leader>[ <i{<CR>
+
+
 " "}}}
 
 
@@ -196,7 +227,6 @@ call vundle#rc()
 
 
 Bundle 'gmarik/vundle'
-let g:vundle_default_git_proto='git'
 
 "Colorscheme
 Bundle 'molokai'
@@ -226,8 +256,9 @@ nnoremap <leader>C :Gcommit -v<CR>
 nnoremap <silent> <leader>S :Gstatus \| 7<CR>
 inoremap <leader>W <Esc><leader>W
 inoremap <leader>C <Esc><leader>C
-inoremap <leader>S <Esc><leader>S  
+inoremap <leader>S <Esc><leader>S
 
+Bundle 'vim-ruby/vim-ruby'
 
 " Bundle 'vim-latex/vim-latex.github.com'
 Bundle 'gerw/vim-latex-suite'
@@ -239,18 +270,20 @@ let g:pyflakes_use_quickfix=1
 " syntacs checker
 Bundle 'scrooloose/syntastic'
 let g:syntastic_enable_signs=1
-let g:syntastic_quiet_warnings=1
+let g:syntastic_quiet_messages = {'level': 'warnings'}
 
 " tags
 Bundle 'majutsushi/tagbar'
+let g:Tlist_Ctags_Cmd='/usr/local/Cellar/ctags/5.8_1/bin/ctags'
+nmap <F10> :TagbarToggle<CR>
 
 Bundle 'mkitt/browser-refresh.vim'
 com! ONRRB :au! BufWritePost <buffer> :RRB
 com! NORRB :au! BufWritePost <buffer>
 
-" like grep, binding for perl module App:Ack
-Bundle 'mileszs/ack.vim.git'
-nmap <leader>a <Esc>:Ack!
+" " like grep, binding for perl module App:Ack
+" Bundle 'mileszs/ack.vim.git'
+" nmap <leader>a <Esc>:Ack!
 
 "Bundle 'tpope/unimpaired.vim'
 Bundle 'unimpaired.vim'
@@ -261,18 +294,57 @@ nmap <M-k> [e
 vmap <M-j> ]egv
 vmap <M-k> [egv
 
-Bundle 'wincent/Command-T.git'
-let g:CommandTMatchWindowAtTop=0 " show window at top
-"burke's
-nnoremap <silent> <leader>ct :CommandT<CR>
-nnoremap <leader>gv :CommandTFlush<cr>\|:CommandT app/views<cr>
-nnoremap <leader>gc :CommandTFlush<cr>\|:CommandT app/controllers<cr>
-nnoremap <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
-nnoremap <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
-nnoremap <leader>ga :CommandTFlush<cr>\|:CommandT app/assets<cr>
-nnoremap <leader>gp :CommandTFlush<cr>\|:CommandT public<cr>
-"nnoremap <leader>gr :topleft :vsplit config/routes.rb<cr>
-"nnoremap <leader>gg :topleft :vsplit Gemfile<cr>
+"git gutter
+Bundle 'airblade/vim-gitgutter'
+
+" fuzzy finder
+Bundle 'junegunn/fzf'
+Bundle 'junegunn/fzf.vim'
+
+" status line
+Bundle 'vim-airline/vim-airline'
+Bundle 'vim-airline/vim-airline-themes'
+"" airline font
+let g:airline_powerline_fonts = 1
+"let g:airline_symbols_ascii = 1
+"" airline thems
+let g:airline_theme = 'dark'
+"" airline extension
+let g:airline#extensions#syntastic#enabled = 1
+let g:airline#extensions#tagbar#enabled = 1
+"" tabline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_buffers = 0
+let g:airline#extensions#tabline#show_tabs = 0
+let g:airline#extensions#tabline#show_close_button = 1
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+nmap <leader>1 <Plug>AirlineSelectTab1
+nmap <leader>2 <Plug>AirlineSelectTab2
+nmap <leader>3 <Plug>AirlineSelectTab3
+nmap <leader>4 <Plug>AirlineSelectTab4
+nmap <leader>5 <Plug>AirlineSelectTab5
+nmap <leader>6 <Plug>AirlineSelectTab6
+nmap <leader>7 <Plug>AirlineSelectTab7
+nmap <leader>8 <Plug>AirlineSelectTab8
+nmap <leader>9 <Plug>AirlineSelectTab9
+nmap <leader>- <Plug>AirlineSelectPrevTab
+nmap <leader>+ <Plug>AirlineSelectNextTab
+let g:airline#extensions#tmuxline#enabled = 0
+
+
+
+" Bundle 'wincent/Command-T.git'
+" let g:CommandTMatchWindowAtTop=0 " show window at top
+" "burke's
+" nnoremap <silent> <leader>ct :CommandT<CR>
+" nnoremap <leader>gv :CommandTFlush<cr>\|:CommandT app/views<cr>
+" nnoremap <leader>gc :CommandTFlush<cr>\|:CommandT app/controllers<cr>
+" nnoremap <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
+" nnoremap <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
+" nnoremap <leader>ga :CommandTFlush<cr>\|:CommandT app/assets<cr>
+" nnoremap <leader>gp :CommandTFlush<cr>\|:CommandT public<cr>
+" "nnoremap <leader>gr :topleft :vsplit config/routes.rb<cr>
+" "nnoremap <leader>gg :topleft :vsplit Gemfile<cr>
 
 " Bundle 'Lokaltog/vim-easymotion'
 " let g:EasyMotion_leader_key='<LocalLeader>'
@@ -282,37 +354,43 @@ nnoremap <leader>gp :CommandTFlush<cr>\|:CommandT public<cr>
 " nnoremap <leader># :<C-u>HlmGrepCword<CR>
 " vnoremap # :<C-u>HlmVSel<CR>
 " vnoremap <leader># :<C-u>HlmGrepVSel<CR>
-" 
+"
 " nnoremap ## :<C-u>HlmPartCword<CR>
 " nnoremap <leader>## :<C-u>HlmPartGrepCword<CR>
 " vnoremap ## :<C-u>HlmPartVSel<CR>
 " vnoremap <leader>## :<C-u>HlmPartGrepVSel<CR>
 
+Bundle 'mustache/vim-mustache-handlebars'
+
 " ============    vim-scripts repos
-Bundle 'L9'
-Bundle 'FuzzyFinder'
-" FuF customisations "{{{
-let g:fuf_modesDisable = []
-nnoremap <leader>h :FufHelp<CR>
-nnoremap <leader>2 :FufFileWithCurrentBufferDir<CR>
-nnoremap <leader>@ :FufFile<CR>
-nnoremap <leader>3 :FufBuffer<CR>
-nnoremap <leader>4 :FufDirWithCurrentBufferDir<CR>
-nnoremap <leader>$ :FufDir<CR>
-nnoremap <leader>5 :FufChangeList<CR>
-nnoremap <leader>6 :FufMruFile<CR>
-nnoremap <leader>7 :FufLine<CR>
-nnoremap <leader>9 :FufTaggedFile<CR>
-
-nnoremap <leader>p :FufDir ~/src/<CR>
-nnoremap <leader>gg :FufDir ~/.rvm/gems/<CR>
-
-nnoremap <leader>gn :vnew \| :FufFile ~/src/notes/<CR>
+" Bundle 'L9'
+" Bundle 'FuzzyFinder'
+" " FuF customisations "{{{
+" let g:fuf_modesDisable = []
+" nnoremap <leader>h :FufHelp<CR>
+" nnoremap <leader>2 :FufFileWithCurrentBufferDir<CR>
+" nnoremap <leader>@ :FufFile<CR>
+" nnoremap <leader>3 :FufBuffer<CR>
+" nnoremap <leader>4 :FufDirWithCurrentBufferDir<CR>
+" nnoremap <leader>$ :FufDir<CR>
+" nnoremap <leader>5 :FufChangeList<CR>
+" nnoremap <leader>6 :FufMruFile<CR>
+" nnoremap <leader>7 :FufLine<CR>
+" nnoremap <leader>9 :FufTaggedFile<CR>
+"
+" nnoremap <leader>p :FufDir ~/src/<CR>
+" nnoremap <leader>gg :FufDir ~/.rvm/gems/<CR>
+"
+" nnoremap <leader>gn :vnew \| :FufFile ~/src/notes/<CR>
 
 " " }}}
 
+" reST edit
+Bundle 'Rykka/riv.vim'
+
 " to do list
 Bundle 'TaskList.vim'
+nnoremap <silent> <F3> :TlistToggle<CR>
 
 Bundle 'The-NERD-tree'
 " programming
@@ -321,12 +399,15 @@ Bundle 'jQuery'
 " (HT|X)ml tool
 Bundle 'ragtag.vim'
 
-" Revision History
-Bundle 'Gundo'
-nnoremap <leader>g :GundoToggle<CR>
+" " Revision History
+"Bundle 'Gundo'
+"nnoremap <leader>g :GundoToggle<CR>
+Bundle 'mbbill/undotree'
 
-Bundle 'Indent-Guides'
-let g:indent_guides_guide_size = 1
+" indentation mark up
+"Bundle 'Indent-Guides'
+"let g:indent_guides_guide_size = 1
+"Bundle 'Yggdroot/indentLine'
 
 Bundle 'ZoomWin'
 noremap <leader>o :ZoomWin<CR>
@@ -338,13 +419,42 @@ Bundle 'tComment'
 nnoremap // :TComment<CR>
 vnoremap // :TComment<CR>
 
+Bundle 'Shougo/neocomplcache'
+let g:neocomplcache_enable_at_startup = 1
+
+" java unused imports
+Bundle 'akhaku/vim-java-unused-imports'
+
+" auto complete brackets
+Bundle 'Townk/vim-autoclose'
+"Bundle 'Raimondi/delimitMate'
+
+Bundle 'vim-scripts/VimClojure'
+
 " ============    non github repos
 
 "  "}}}
+"
+"
+
+function! SuperCleverTab()
+    if strpart(getline('.'), 0, col('.') - 1) =~ '^\s*$'
+        return "\<Tab>"
+    else
+        if &omnifunc != ''
+            return "\<C-X>\<C-O>"
+        elseif &dictionary != ''
+            return "\<C-K>"
+        else
+            return "\<C-N>"
+        endif
+    endif
+endfunction
+
+inoremap <Tab> <C-R>=SuperCleverTab()<cr>
+
 
 filetype plugin indent on
-
-
 
 
 " The following are commented out as they cause vim to behave a lot
@@ -363,39 +473,46 @@ endif
 " detected filetype. Per default Debian Vim only load filetype specific
 " plugins.
 if has("autocmd")
-  filetype plugin indent on
 
-  " Put these in an autocmd group, so that we can delete them easily.
   augroup vimrcEx
   au!
 
   " For all text files set 'textwidth' to 78 characters.
   autocmd FileType text setlocal textwidth=78
 
-"  autocmd BufRead, BufNewFile *.py, *.pyw setlocal sw=4
-"  autocmd BufRead, BufNewFile *.py, *.pyw setlocal autoindent shiftwidth=4
-"  autocmd BufRead, BufNewFile *.py, *.pyw setlocal expandtab 
-"  autocmd BufRead, BufNewFile *.py, *.pyw setlocal smartindent 
-"  autocmd BufRead, BufNewFile *.py, *.pyw setlocal cinwords=def,if,elif,else,for,while,try,except,finall 
+  " python setting
   autocmd FileType python setlocal ts=8 sts=4 sw=4 tw=72 ai et
   autocmd FileType python setlocal smartindent nosmarttab
-  autocmd FileType python setlocal cinwords=def,if,elif,else,for,while,try,except,finall 
-
+  autocmd FileType python setlocal cinwords=def,if,elif,else,for,while,try,except,finall
+  autocmd FileType python setlocal fileformat=unix
+  autocmd FileType python setlocal textwidth=120
 
   " Use the below highlight group when displaying bad whitespace is desired.
   highlight BadWhitespace ctermbg=red guibg=red
-  
   " Display tabs at the beginning of a line in Python mode as bad.
   au BufRead,BufNewFile *.py,*.pyw match BadWhitespace /^\t\+/
   " Make trailing whitespace be flagged as bad.
-  autocmd BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+  autocmd BufRead,BufNewFile *.py,*.pyw,*.c,*.h,*.java,*.sh match BadWhitespace /\s\+$/
 
-  " autocmd BufRead, BufNewFile *.py, *.pyw set textwidth=120 
-  autocmd BufRead, BufNewFile *.c,*.h,*.cpp,*.hpp set textwidth=120
+  " makefile setting
+  autocmd BufRead,BufNewFile Makefile* setlocal noexpandtab
 
-  autocmd BufRead, BufNewFile Makefile* set noexpandtab  
+  " C++/C setting
+  autocmd BufNewFile *.cpp,*.hpp,*.c,*.h setlocal fileformat=unix
+  autocmd FileType c,cpp setlocal textwidth=120
+  autocmd FileType c,cpp setlocal ts=4 sts=4 sw=4
+  autocmd FileType c,cpp setlocal noexpandtab smarttab
+  autocmd FileType c,cpp setlocal cindent smartindent autoindent
 
-  autocmd BufNewFile *.py, *.pyw, *.c, *.h set fileformat=unix
+  " javascript setting
+  autocmd FileType javascript setlocal ts=4 sts=2 sw=2 tw=72 ai expandtab
+  autocmd FileType javascript setlocal smartindent nosmarttab
+  autocmd FileType javascript setlocal fileformat=unix
+
+  " ruby
+  autocmd FileType ruby setlocal ts=4 sts=2 sw=2 ai et
+  autocmd FileType ruby setlocal smartindent nosmarttab
+  autocmd FileType python setlocal fileformat=unix
 
   augroup END
 
@@ -415,7 +532,7 @@ let g:tex_flavor='tex'
 "let g:Tex_CompileRule_pdf = 'dvipdf $*.dvi; xpdf -remote 127.0.0.1 -reload -raise'
 "let g:Tex_CompileRule_pdf = 'dvipdf $*.dvi'
 "let g:Tex_CompileRule_pdf='pdflatex -interaction nonstopmode --shell-escape $* ; pgrep -f "xpdf -remote vimlatex" > /dev/null \|\| xpdf -remote vimlatex -reload'
-let g:Tex_CompileRule_pdf ='(pdflatex -interaction nonstopmode --shell-escape $*; redraw)' 
+let g:Tex_CompileRule_pdf ='(pdflatex -interaction nonstopmode --shell-escape $*; redraw)'
 "let g:Tex_ViewRule_pdf = 'xpdf -remote 127.0.0.1'
 let g:Tex_ViewRule_pdf ='evince $*.pdf >& /dev/null'
 let g:Tex_ViewRule_dvi ='evince $*.dvi >& /dev/null'
@@ -452,7 +569,7 @@ set iskeyword+=_
 "===================================================================
 " setting for minibufexpl
 " let g:miniBufExplMapWindowNavVim = 1	" Configure CTRL-hjkl keys to move between windows
-" let g:miniBufExplMapWindowNavArrows = 1 " Configure CTRL-arrow keys to move between windows 
+" let g:miniBufExplMapWindowNavArrows = 1 " Configure CTRL-arrow keys to move between windows
 
 let g:miniBufExplMapCTabSwitchBufs = 1  " Use C-Tab/C-S-Tab to navigate buffers
 " let g:miniBufExplForceSyntaxEnable = 1  " Work around vim bug that causes buffers to lose syntax highlighting sometimes
@@ -491,14 +608,15 @@ map <silent> <leader>ss <ESC><ESC>:source ~/.vimrc<cr>
 " Fast editing of .vimrc
 map <silent> <leader>ee <ESC><ESC>:e ~/.vimrc<cr>
 " When .vimrc is edited, reload it
-autocmd! bufwritepost .vimrc source ~/.vimrc 
+autocmd! bufwritepost .vimrc source ~/.vimrc
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "              global setting
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " global map
-map <F2> <ESC><ESC>:redraw!<CR>
+"map <F2> <ESC><ESC>:redraw!<CR>
+map <F2> <ESC><ESC>:tabp<CR>
 map <F3> <ESC><ESC>gt<CR>
 map <F4> <C-W>W
 
@@ -527,5 +645,5 @@ map <silent> <leader>le <ESC><ESC><C-W>l2<C-E><C-W>h
 map <F8> <ESC><ESC><C-W>l2<C-E><C-W>h
 
 
-
+":BundleInstall
 " vim: textwidth=120:
