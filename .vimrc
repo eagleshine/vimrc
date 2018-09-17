@@ -246,6 +246,8 @@ endif
 
 
 " =========   original repos on github
+" Go
+Bundle 'fatih/vim-go'
 " Git integration
 Bundle 'tpope/vim-git'
 Bundle 'tpope/vim-fugitive'
@@ -304,15 +306,17 @@ Bundle 'junegunn/fzf.vim'
 " status line
 Bundle 'vim-airline/vim-airline'
 Bundle 'vim-airline/vim-airline-themes'
-"" airline font
-let g:airline_powerline_fonts = 1
-"let g:airline_symbols_ascii = 1
-"" airline thems
+" airline font
+"let g:airline_powerline_fonts = 1
+let g:airline_symbols_ascii = 1
+let g:airline_left_sep=''
+let g:airline_right_sep=''
+" airline thems
 let g:airline_theme = 'dark'
-"" airline extension
+" airline extension
 let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#tagbar#enabled = 1
-"" tabline
+" tabline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#tabline#show_tabs = 0
@@ -431,6 +435,9 @@ Bundle 'Townk/vim-autoclose'
 
 Bundle 'vim-scripts/VimClojure'
 
+" Golang
+Bundle 'fatih/vim-go'
+
 " ============    non github repos
 
 "  "}}}
@@ -534,7 +541,9 @@ let g:tex_flavor='tex'
 "let g:Tex_CompileRule_pdf='pdflatex -interaction nonstopmode --shell-escape $* ; pgrep -f "xpdf -remote vimlatex" > /dev/null \|\| xpdf -remote vimlatex -reload'
 let g:Tex_CompileRule_pdf ='(pdflatex -interaction nonstopmode --shell-escape $*; redraw)'
 "let g:Tex_ViewRule_pdf = 'xpdf -remote 127.0.0.1'
-let g:Tex_ViewRule_pdf ='evince $*.pdf >& /dev/null'
+"let g:Tex_ViewRule_pdf ='evince $*.pdf >& /dev/null'
+"let g:Tex_ViewRule_pdf = '/usr/bin/open -a Preview $*.pdf' 
+let g:Tex_ViewRuleComplete_pdf = '/usr/bin/open -a Preview $*.pdf' 
 let g:Tex_ViewRule_dvi ='evince $*.dvi >& /dev/null'
 " Set the target format to pdf.
 let g:Tex_DefaultTargetFormat ='pdf'
