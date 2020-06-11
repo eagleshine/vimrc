@@ -246,8 +246,9 @@ endif
 
 
 " =========   original repos on github
+"Bundle 'vim-latex/vim-latex'
 " Go
-Bundle 'fatih/vim-go'
+"Bundle 'fatih/vim-go'
 " Git integration
 Bundle 'tpope/vim-git'
 Bundle 'tpope/vim-fugitive'
@@ -303,6 +304,10 @@ Bundle 'airblade/vim-gitgutter'
 Bundle 'junegunn/fzf'
 Bundle 'junegunn/fzf.vim'
 
+" for writing notes
+Bundle 'alok/notational-fzf-vim'
+let g:nv_search_paths = ['~/Google\ Drive/notes/']
+
 " status line
 Bundle 'vim-airline/vim-airline'
 Bundle 'vim-airline/vim-airline-themes'
@@ -314,8 +319,8 @@ let g:airline_right_sep=''
 " airline thems
 let g:airline_theme = 'dark'
 " airline extension
-let g:airline#extensions#syntastic#enabled = 1
-let g:airline#extensions#tagbar#enabled = 1
+" let g:airline#extensions#syntastic#enabled = 1
+" let g:airline#extensions#tagbar#enabled = 1
 " tabline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 0
@@ -434,9 +439,6 @@ Bundle 'Townk/vim-autoclose'
 "Bundle 'Raimondi/delimitMate'
 
 Bundle 'vim-scripts/VimClojure'
-
-" Golang
-Bundle 'fatih/vim-go'
 
 " ============    non github repos
 
@@ -635,6 +637,13 @@ map <F4> <C-W>W
 nmap <silent><leader>nt <ESC><ESC>:NERDTreeToggle<CR>
 map <F9> <ESC><ESC>:NERDTreeToggle<CR>
 
+"---------------------------------------------------
+" fzf setting
+"---------------------------------------------------
+nnoremap <leader>f :Files<cr>
+
+" spell check
+map <silent> <leader>sp :setlocal spell! spelllang=en_us<CR>
 
 "---------------------------------------------------
 "       scroll windows
