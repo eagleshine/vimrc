@@ -226,19 +226,21 @@ set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
 
-Bundle 'gmarik/vundle'
+Plugin 'VundleVim/Vundle.vim'
 
 "Colorscheme
-Bundle 'molokai'
-Bundle 'nelstrom/vim-mac-classic-theme'
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'gmarik/ingretu'
+Plugin 'molokai'
+Plugin 'nelstrom/vim-mac-classic-theme'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'gmarik/ingretu'
+Plugin 'sonph/onehalf', {'rtp': 'vim/'}
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
 if &t_Co > 2 || has("gui_running")
 "  colorscheme evening
-   colorscheme ingretu
+"  colorscheme ingretu
+  colorscheme onehalflight
 "  colorscheme molokai
 "  colorscheme vim-mac-classic-theme
 "  colorscheme solarized
@@ -246,12 +248,12 @@ endif
 
 
 " =========   original repos on github
-"Bundle 'vim-latex/vim-latex'
+"Plugin 'vim-latex/vim-latex'
 " Go
-"Bundle 'fatih/vim-go'
+"Plugin 'fatih/vim-go'
 " Git integration
-Bundle 'tpope/vim-git'
-Bundle 'tpope/vim-fugitive'
+Plugin 'tpope/vim-git'
+Plugin 'tpope/vim-fugitive'
 " set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 " Gblame, Gread
 nnoremap <leader>W :Gwrite<CR>
@@ -261,35 +263,35 @@ inoremap <leader>W <Esc><leader>W
 inoremap <leader>C <Esc><leader>C
 inoremap <leader>S <Esc><leader>S
 
-Bundle 'vim-ruby/vim-ruby'
+Plugin 'vim-ruby/vim-ruby'
 
-" Bundle 'vim-latex/vim-latex.github.com'
-Bundle 'gerw/vim-latex-suite'
-Bundle 'fs111/pydoc.vim.git'
+" Plugin 'vim-latex/vim-latex.github.com'
+Plugin 'gerw/vim-latex-suite'
+Plugin 'fs111/pydoc.vim.git'
 
-Bundle 'mitechie/pyflakes-pathogen.git'
+Plugin 'mitechie/pyflakes-pathogen.git'
 let g:pyflakes_use_quickfix=1
 
 " syntacs checker
-Bundle 'scrooloose/syntastic'
+Plugin 'scrooloose/syntastic'
 let g:syntastic_enable_signs=1
 let g:syntastic_quiet_messages = {'level': 'warnings'}
 
 " tags
-Bundle 'majutsushi/tagbar'
+Plugin 'majutsushi/tagbar'
 let g:Tlist_Ctags_Cmd='/usr/local/Cellar/ctags/5.8_1/bin/ctags'
 nmap <F10> :TagbarToggle<CR>
 
-Bundle 'mkitt/browser-refresh.vim'
+Plugin 'mkitt/browser-refresh.vim'
 com! ONRRB :au! BufWritePost <buffer> :RRB
 com! NORRB :au! BufWritePost <buffer>
 
 " " like grep, binding for perl module App:Ack
-" Bundle 'mileszs/ack.vim.git'
+" Plugin 'mileszs/ack.vim.git'
 " nmap <leader>a <Esc>:Ack!
 
-"Bundle 'tpope/unimpaired.vim'
-Bundle 'unimpaired.vim'
+"Plugin 'tpope/unimpaired.vim'
+Plugin 'unimpaired.vim'
 " bubble current line
 nmap <M-j> ]e
 nmap <M-k> [e
@@ -298,19 +300,19 @@ vmap <M-j> ]egv
 vmap <M-k> [egv
 
 "git gutter
-Bundle 'airblade/vim-gitgutter'
+Plugin 'airblade/vim-gitgutter'
 
 " fuzzy finder
-Bundle 'junegunn/fzf'
-Bundle 'junegunn/fzf.vim'
+Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
 
 " for writing notes
-Bundle 'alok/notational-fzf-vim'
-let g:nv_search_paths = ['~/Google\ Drive/notes/']
+Plugin 'alok/notational-fzf-vim'
+let g:nv_search_paths = ['~/Google\ Drive/notes/', '~/works/mynotes/']
 
 " status line
-Bundle 'vim-airline/vim-airline'
-Bundle 'vim-airline/vim-airline-themes'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 " airline font
 "let g:airline_powerline_fonts = 1
 let g:airline_symbols_ascii = 1
@@ -342,7 +344,7 @@ let g:airline#extensions#tmuxline#enabled = 0
 
 
 
-" Bundle 'wincent/Command-T.git'
+" Plugin 'wincent/Command-T.git'
 " let g:CommandTMatchWindowAtTop=0 " show window at top
 " "burke's
 " nnoremap <silent> <leader>ct :CommandT<CR>
@@ -355,10 +357,10 @@ let g:airline#extensions#tmuxline#enabled = 0
 " "nnoremap <leader>gr :topleft :vsplit config/routes.rb<cr>
 " "nnoremap <leader>gg :topleft :vsplit Gemfile<cr>
 
-" Bundle 'Lokaltog/vim-easymotion'
+" Plugin 'Lokaltog/vim-easymotion'
 " let g:EasyMotion_leader_key='<LocalLeader>'
 
-"Bundle 'gmarik/hlmatch.vim'
+"Plugin 'gmarik/hlmatch.vim'
 " nnoremap # :<C-u>HlmCword<CR>
 " nnoremap <leader># :<C-u>HlmGrepCword<CR>
 " vnoremap # :<C-u>HlmVSel<CR>
@@ -369,11 +371,11 @@ let g:airline#extensions#tmuxline#enabled = 0
 " vnoremap ## :<C-u>HlmPartVSel<CR>
 " vnoremap <leader>## :<C-u>HlmPartGrepVSel<CR>
 
-Bundle 'mustache/vim-mustache-handlebars'
+Plugin 'mustache/vim-mustache-handlebars'
 
 " ============    vim-scripts repos
-" Bundle 'L9'
-" Bundle 'FuzzyFinder'
+" Plugin 'L9'
+" Plugin 'FuzzyFinder'
 " " FuF customisations "{{{
 " let g:fuf_modesDisable = []
 " nnoremap <leader>h :FufHelp<CR>
@@ -395,50 +397,50 @@ Bundle 'mustache/vim-mustache-handlebars'
 " " }}}
 
 " reST edit
-Bundle 'Rykka/riv.vim'
+Plugin 'Rykka/riv.vim'
 
 " to do list
-Bundle 'TaskList.vim'
+Plugin 'TaskList.vim'
 nnoremap <silent> <F3> :TlistToggle<CR>
 
-Bundle 'The-NERD-tree'
+Plugin 'The-NERD-tree'
 " programming
-Bundle 'jQuery'
+Plugin 'jQuery'
 
 " (HT|X)ml tool
-Bundle 'ragtag.vim'
+Plugin 'ragtag.vim'
 
 " " Revision History
-"Bundle 'Gundo'
+"Plugin 'Gundo'
 "nnoremap <leader>g :GundoToggle<CR>
-Bundle 'mbbill/undotree'
+Plugin 'mbbill/undotree'
 
 " indentation mark up
-"Bundle 'Indent-Guides'
+"Plugin 'Indent-Guides'
 "let g:indent_guides_guide_size = 1
-"Bundle 'Yggdroot/indentLine'
+"Plugin 'Yggdroot/indentLine'
 
-Bundle 'ZoomWin'
+Plugin 'ZoomWin'
 noremap <leader>o :ZoomWin<CR>
 vnoremap <leader>o <C-C>:ZoomWin<CR>
 inoremap <leader>o <C-O>:ZoomWin<CR>
 
-Bundle 'tlib'
-Bundle 'tComment'
+Plugin 'tlib'
+Plugin 'tComment'
 nnoremap // :TComment<CR>
 vnoremap // :TComment<CR>
 
-Bundle 'Shougo/neocomplcache'
+Plugin 'Shougo/neocomplcache'
 let g:neocomplcache_enable_at_startup = 1
 
 " java unused imports
-Bundle 'akhaku/vim-java-unused-imports'
+Plugin 'akhaku/vim-java-unused-imports'
 
 " auto complete brackets
-Bundle 'Townk/vim-autoclose'
-"Bundle 'Raimondi/delimitMate'
+Plugin 'Townk/vim-autoclose'
+"Plugin 'Raimondi/delimitMate'
 
-Bundle 'vim-scripts/VimClojure'
+Plugin 'vim-scripts/VimClojure'
 
 " ============    non github repos
 
