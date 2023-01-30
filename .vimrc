@@ -307,8 +307,8 @@ Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 
 " for writing notes
-Plugin 'alok/notational-fzf-vim'
-let g:nv_search_paths = ['~/Google\ Drive/notes/', '~/works/mynotes/']
+" Plugin 'alok/notational-fzf-vim'
+" let g:nv_search_paths = ['~/Google\ Drive/notes/', '~/works/mynotes/']
 
 " status line
 Plugin 'vim-airline/vim-airline'
