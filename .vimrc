@@ -425,7 +425,7 @@ noremap <leader>o :ZoomWin<CR>
 vnoremap <leader>o <C-C>:ZoomWin<CR>
 inoremap <leader>o <C-O>:ZoomWin<CR>
 
-Plugin 'tlib'
+"Plugin 'tlib'
 Plugin 'tComment'
 nnoremap // :TComment<CR>
 vnoremap // :TComment<CR>
